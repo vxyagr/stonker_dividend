@@ -37,6 +37,11 @@
                 "type": "uint256[]"
             },
             {
+                "internalType": "uint256[]",
+                "name": "stonkerId_",
+                "type": "uint256[]"
+            },
+            {
                 "internalType": "uint256",
                 "name": "totalDividend_",
                 "type": "uint256"
@@ -74,14 +79,8 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "bool",
-                "name": "allow_",
-                "type": "bool"
-            }
-        ],
-        "name": "setAllowClaim",
+        "inputs": [],
+        "name": "renounceOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -90,11 +89,11 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "newOwner",
+                "name": "addr_",
                 "type": "address"
             }
         ],
-        "name": "transferOwnership",
+        "name": "setTreasuryAddress",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -124,8 +123,14 @@
         "type": "event"
     },
     {
-        "inputs": [],
-        "name": "renounceOwnership",
+        "inputs": [
+            {
+                "internalType": "bool",
+                "name": "allow_",
+                "type": "bool"
+            }
+        ],
+        "name": "setAllowClaim",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -147,11 +152,11 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "addr_",
+                "name": "newOwner",
                 "type": "address"
             }
         ],
-        "name": "setTreasuryAddress",
+        "name": "transferOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -221,6 +226,19 @@
                 "internalType": "struct StonkerDividend.claimDetail[]",
                 "name": "",
                 "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDistributableDividend",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -334,6 +352,19 @@
                 "internalType": "uint256[]",
                 "name": "",
                 "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getUnclaimedDividend",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",

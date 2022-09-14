@@ -64,7 +64,8 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
 
     const contractAddres = "0x6BdD2353D12a78FEa7487829adaB30bf391ae336"; //mainnet
     //const dividendContractAddres = "0x882249918044aF91FDCA1B7DE0FFbde637E5F546"; //mainnet
-    const dividendContractAddres = "0x3d9dd42643e30007c4d726051d04427e89ec2b49"; //polygonmainnet
+    const dividendContractAddres = "0x67f31A68a38A5Fcb0367998918dFdA7D9D8fed27"; //polygonmainnet
+    //
     // console.log(accountsList[0])
 
     // const provider = new providers.JsonRpcBatchProvider("https://rinkeby.infura.io/v3/8051d992532d4f65b1cea01cb751d577");
@@ -103,12 +104,18 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const [vampireYield, setVampireYield] = useState(0);
     const [humanYield, setHumanYield] = useState(0);
     const [lastDisburse, setLastDisburse] = useState(0);
+    const [amnt, setAmnt] = useState(0);
+    const [distributable, setDistributable] = useState(0);
 
     const [testNum, setTestnum] = useState(1);
 
     const getLastDisbursement = async () => {
         var last = await dividendContract.getLastDisbursementTime();
         setLastDisburse(last);
+    };
+
+    const logit = async () => {
+        console.log("Dis : " + amnt);
     };
 
     const distribute = async () => {
@@ -121,7 +128,8 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
             var stonkerIds = [];
             var addr_ = [];
             var divs_ = [];
-            var dividend = await dividendContract.getStonkerUSDCBalance();
+            //var dividend = await dividendContract.getStonkerUSDCBalance();
+            var dividend = amnt;
             for (i = 0; i < totalStonkers; i++) {
                 //address stonkerOwner = stonkerNFT.ownerOf(i);
 
@@ -135,12 +143,16 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
                 stonkerIds.push(i);
                 addr_.push(owner);
                 divs_.push(stk[1]);
-                totalYield += stk[1];
+                totalYield += parseInt(stk[1]);
+                console.log("yield " + stk[1]);
+                console.log(totalYield);
             }
 
             var dividendPerYield = dividend / totalYield;
+            console.log("totalYield " + totalYield);
+            console.log("dividend per yield " + dividendPerYield);
             //const numbers = [1, 2, 3, 4, 5];
-            const divsYield_ = divs_.map((number) => number * dividendPerYield);
+            const divsYield_ = divs_.map((number) => Math.floor(number * dividendPerYield * 0.7));
             console.log(divsYield_);
             var distribute = await dividendContract.distributeDividends(addr_, divsYield_, stonkerIds, dividend);
         }
@@ -149,14 +161,30 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const getTotalClaimed = async () => {
         if (account) {
             //var totalClaim = await dividendContract.getTotalClaimedDividends(account);
-            var totalClaim = await readDividendContract.methods.getTotalClaimedDividends(account).call();
+            var totalClaim = await dividendContract.getTotalClaimedDividends(account);
             setTotalClaimed(totalClaim);
         }
     };
 
+    const getDistributable = async () => {
+        if (account) {
+            //var totalClaim = await dividendContract.getTotalClaimedDividends(account);
+            var totalClaim = await dividendContract.getDistributableDividend();
+            setDistributable(totalClaim / 1000000);
+        }
+    };
+    if (distributable == 0) {
+        getLastDisbursement();
+        getDistributable();
+    }
+
     useEffect(() => {
         //getOwned();
         getLastDisbursement();
+        getDistributable();
+        console.log("lastDisburse " + lastDisburse);
+        console.log("distributable " + distributable);
+        //
     }, [account]); // <-- empty dependency array
     if (!showConnectWallet && !showSwitchToDefaultNetwork) {
         //if (true) {
@@ -169,11 +197,22 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
                     <div>
                         <div className="px-4 py-6 text-center sm:basis-1/4 sm:pl-8">
                             <p className="mb-6 text-sm leading-6 text-gray-light-10 dark:text-gray-dark-10">
-                                <div>We have</div> <span className="items-center justify-center text-4xl text-gray-light-12 dark:text-gray-dark-12">{claimable.toFixed(2).toString()} USDC</span> <div>of dividend</div>
+                                <div>We have</div> <span className="items-center justify-center text-4xl text-gray-light-12 dark:text-gray-dark-12">{distributable.toString()} USDC</span> <div>of dividend</div>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Type something..."
+                                        id="myInput"
+                                        onChange={(e) => {
+                                            setAmnt(e.currentTarget.value);
+                                        }}
+                                    ></input>
+                                </div>
                                 <Link href="#">
                                     <a
                                         onClick={() => {
                                             distribute();
+                                            //logit();
                                         }}
                                         className="button gradient inline-block rounded-full bg-[length:300%_300%] bg-center py-3 px-8 font-inter text-sm font-bold leading-none tracking-tight text-gray-50 hover:bg-left  hover:shadow-xl hover:shadow-blue-400/20 active:scale-95 dark:text-gray-900 sm:text-base md:text-base"
                                     >

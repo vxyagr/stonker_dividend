@@ -63,7 +63,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     //const contractAddres = "0x21Bf9D1BBc6FA5C39378fe3091B05EF51d24BcFF"; //rinkeby
 
     const contractAddres = "0x6BdD2353D12a78FEa7487829adaB30bf391ae336"; //mainnet
-    const dividendContractAddres = "0x882249918044aF91FDCA1B7DE0FFbde637E5F546"; //mainnet
+    const dividendContractAddres = "0x67f31A68a38A5Fcb0367998918dFdA7D9D8fed27"; //mainnet
     // console.log(accountsList[0])
 
     // const provider = new providers.JsonRpcBatchProvider("https://rinkeby.infura.io/v3/8051d992532d4f65b1cea01cb751d577");
@@ -86,7 +86,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const [cardLoaded, setCardLoaded] = useState(false);
     prices[1] = 225;
 
-    const axios = require("axios");
+    //const axios = require("axios");
     // const request = require("request");
     const [human, setHuman] = useState(0);
     const [elf, setElf] = useState(0);
@@ -100,18 +100,10 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
 
     const [testNum, setTestnum] = useState(1);
 
-    const getTotalYield = async () => {
-        if (account) {
-            // /var totalYield = await dividendContract.getPopulationYield();
-            var totalYield = await rContract.methods.getPopulationYield().call();
-            setTotalStonkerYield(totalYield);
-        }
-    };
-
     const claim = async () => {
         if (account) {
             var claimable = await dividendContract.claim();
-            setClaimable((claimable * 0.7) / 1000000);
+            setClaimable(claimable / 1000000);
         }
     };
 
@@ -137,7 +129,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
         if (account) {
             //var owned = await contract.stonkersOfOwner(account);
             var owned = await rsContract.methods.stonkersOfOwner(account).call();
-            getTotalYield();
+            //getTotalYield();
             //console.log(owned);
             for (const [index, value] of owned.entries()) {
                 var card_: ICard = { tokenId: 0, yield: 0 };
@@ -173,13 +165,13 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
     const getClaimableDividend = async () => {
         //if (account) {
         console.log("get claimable " + account);
-        //var claimables = await dividendContract.getClaimableDividend(account);
+        var claimables = await dividendContract.getClaimableDividend(account);
         //var claimables = await rContract.methods.getClaimableDividend("0xc66fB343f20765CC923b2e79aD8c95FA9ef407fe").call();
-        var claimables = await rContract.methods.getClaimableDividend(account).call();
+        //var claimables = await rContract.methods.getClaimableDividend(account).call();
         //var claimables = await readContract.getClaimableDividend(account);
         //console.log("claimable " + claimables);
 
-        setClaimable((claimables * 0.7) / 1000000);
+        setClaimable(claimables / 1000000);
 
         //}
     };
