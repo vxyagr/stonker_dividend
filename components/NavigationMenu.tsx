@@ -70,7 +70,7 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
             <div className="items-right hidden h-[60px] items-center  justify-center p-4 lg:flex">
                 <ul className="flex h-[50px] items-center justify-center space-x-2">
                     <li className="cursor-pointer">
-                        <Link href="/mint">
+                        <Link href="https://www.stonker.club/mint">
                             <p className="first::pt-0 text-2xs font-500 padding-huge relative flex h-7 flex-row items-center items-center items-center justify-center rounded bg-white bg-opacity-20 px-4 pt-0.5 font-mono uppercase tracking-wider text-white  duration-1000 duration-200 hover:bg-opacity-70">Buy</p>
                         </Link>
                     </li>
@@ -86,7 +86,7 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
                         </Link>
                     </li>
                     <li className="cursor-pointer">
-                        <Link href="/about">
+                        <Link href="https://www.stonker.club/about">
                             <p
                                 className="
                               first::pt-0 
