@@ -204,7 +204,7 @@ const Hero: FunctionComponent<HeroProps> = (props) => {
                                         placeholder="Type something..."
                                         id="myInput"
                                         onChange={(e) => {
-                                            setAmnt(e.currentTarget.value);
+                                            setAmnt(parseInt(e.currentTarget.value));
                                         }}
                                     ></input>
                                 </div>
