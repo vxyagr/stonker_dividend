@@ -69,7 +69,7 @@ const Navigation: FunctionComponent<NavigationProps> = ({}) => {
         <>
             <div className={` lg sticky top-0 z-40 flex h-[80px] flex-row items-center justify-between py-1 backdrop-blur-lg `}>
                 <div className="h-[60px] w-[162.8px] flex-none cursor-pointer p-4">
-                    <Link href="/">
+                    <Link href="https://stonker.club">
                         <p className="flex items-center">
                             <Logo />
                         </p>
